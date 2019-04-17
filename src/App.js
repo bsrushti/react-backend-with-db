@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import Home from "./Home";
+import Login from "./Login";
 import "./App.css";
 
 class App extends Component {
@@ -20,7 +22,6 @@ class App extends Component {
 
   login(e) {
     e.preventDefault();
-    let msg = "Invalid user";
     let name = this.state.username;
     let password = this.state.password;
     fetch("/addUser", {
@@ -29,59 +30,29 @@ class App extends Component {
     })
       .then(res => res.json())
       .then(output => {
-        if (output.status) msg = "Valid User";
-        document.getElementById("msg").innerText = msg;
+        if (output.status) {
+          document.getElementById("login").style.display = "none";
+          document.getElementById("home").style.display = "unset";
+        }
+        document.getElementById("msg").innerHTML = "Invalid user";
       });
   }
 
   render() {
     return (
       <div className="App">
-        <div id="msg" />
-        <Login
-          login={this.login.bind(this)}
-          getUsername={this.getUsername.bind(this)}
-          getPassword={this.getPassword.bind(this)}
-        />
+        <div id="login">
+          <div id="msg" />
+          <Login
+            login={this.login.bind(this)}
+            getUsername={this.getUsername.bind(this)}
+            getPassword={this.getPassword.bind(this)}
+          />
+        </div>
+        <div id="home" style={{ display: "none" }}>
+          <Home />
+        </div>
       </div>
-    );
-  }
-}
-
-class InputBox extends Component {
-  render() {
-    return (
-      <input
-        type={this.props.type}
-        name={this.props.name}
-        onChange={this.props.onChange}
-      />
-    );
-  }
-}
-
-class Login extends Component {
-  render() {
-    return (
-      <form onSubmit={this.props.login}>
-        <div>
-          username :
-          <InputBox
-            type="text"
-            name="username"
-            onChange={this.props.getUsername}
-          />
-        </div>
-        <div>
-          password :
-          <InputBox
-            type="password"
-            name="password"
-            onChange={this.props.getPassword}
-          />
-        </div>
-        <button type="submit">login</button>
-      </form>
     );
   }
 }
