@@ -20,19 +20,24 @@ class App extends Component {
 
   login(e) {
     e.preventDefault();
+    let msg = "Invalid user";
     let name = this.state.username;
     let password = this.state.password;
     fetch("/addUser", {
       method: "POST",
       body: JSON.stringify({ name, password })
     })
-      .then(res => res.text())
-      .then(output => console.log("response", output));
+      .then(res => res.json())
+      .then(output => {
+        if (output.status) msg = "Valid User";
+        document.getElementById("msg").innerText = msg;
+      });
   }
 
   render() {
     return (
       <div className="App">
+        <div id="msg" />
         <Login
           login={this.login.bind(this)}
           getUsername={this.getUsername.bind(this)}
