@@ -42,6 +42,7 @@ class App extends Component {
 
   login(e) {
     e.preventDefault();
+    let app = this;
     let name = this.state.username;
     let password = this.state.password;
     fetch("/login", {
@@ -52,9 +53,8 @@ class App extends Component {
       .then(function(output) {
         if (!output.status) {
           document.getElementById("msg").innerHTML = "Invalid user";
-        }
+        } else this.setState({ currentPage: "home" });
       });
-    this.setState({ currentPage: "home" });
   }
 
   save(e) {
