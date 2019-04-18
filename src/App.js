@@ -120,13 +120,15 @@ class App extends Component {
 
   render() {
     return (
-      <Blogger
-        currentPage={this.state.currentPage}
-        renderLogin={this.renderLogin.bind(this)}
-        renderHome={this.renderHome.bind(this)}
-        renderPost={this.renderPost.bind(this)}
-        blogDetails={this.state.blogDetails}
-      />
+      <div className="blogger-container">
+        <Blogger
+          currentPage={this.state.currentPage}
+          renderLogin={this.renderLogin.bind(this)}
+          renderHome={this.renderHome.bind(this)}
+          renderPost={this.renderPost.bind(this)}
+          blogDetails={this.state.blogDetails}
+        />
+      </div>
     );
   }
 }

@@ -1,5 +1,4 @@
 header,
-.timestamp,
 .content {
   border: 1px solid black;
 }
@@ -27,6 +26,7 @@ header {
 .timestamp {
   width: 10%;
   align-self: flex-end;
+  font-size: 18px;
 }
 
 .content {
@@ -41,4 +41,8 @@ header {
 
 .side-panel {
   align-self: flex-end;
+}
+
+.blogger-container {
+  margin: 2px;
 }
