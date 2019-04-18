@@ -53,7 +53,7 @@ class App extends Component {
       .then(function(output) {
         if (!output.status) {
           document.getElementById("msg").innerHTML = "Invalid user";
-        } else this.setState({ currentPage: "home" });
+        } else app.setState({ currentPage: "home" });
       });
   }
 
