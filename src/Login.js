@@ -1,20 +1,9 @@
 import React, { Component } from "react";
-class InputBox extends Component {
-  render() {
-    return (
-      <input
-        type={this.props.type}
-        name={this.props.name}
-        onChange={this.props.onChange}
-      />
-    );
-  }
-}
-
+import InputBox from "./InputBox";
 class Login extends Component {
   render() {
     return (
-      <form onSubmit={this.props.login}>
+      <form className="login-page" onSubmit={this.props.login}>
         <div>
           username :
           <InputBox
@@ -31,7 +20,9 @@ class Login extends Component {
             onChange={this.props.getPassword}
           />
         </div>
-        <button type="submit">login</button>
+        <button type="submit" className="login-button">
+          login
+        </button>
       </form>
     );
   }

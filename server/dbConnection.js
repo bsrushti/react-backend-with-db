@@ -1,5 +1,6 @@
 const mysql = require("mysql");
 const LOGIN_DETAILS = "login_details";
+const BLOG_DETAILS = "blog_details";
 
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -23,4 +24,13 @@ const isValidUser = function(userDetails, res) {
   });
 };
 
-module.exports = { isValidUser };
+const addPost = function(userDetails, res) {
+  let { userName, blogTitle, content } = userDetails;
+  const qry = `insert into ${BLOG_DETAILS} (user_name, title, content) values('${userName}','${blogTitle}','${content}')`;
+  return connection.query(qry, err => {
+    if (err) throw err;
+    return res.send(200);
+  });
+};
+
+module.exports = { isValidUser, addPost };
