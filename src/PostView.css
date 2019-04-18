@@ -1,0 +1,44 @@
+header,
+.timestamp,
+.content {
+  border: 1px solid black;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.App {
+  height: 70%;
+  width: 70%;
+  display: flex;
+  flex-flow: column;
+}
+
+header {
+  height: 10%;
+  width: 100%;
+  font-size: 30px;
+  text-align: center;
+  line-height: 3;
+}
+
+.timestamp {
+  width: 10%;
+  align-self: flex-end;
+}
+
+.content {
+  height: 500px;
+  justify-content: center;
+  text-align: center;
+}
+
+.blogger-name {
+  align-self: flex-end;
+}
+
+.side-panel {
+  align-self: flex-end;
+}

@@ -1,44 +1,39 @@
-import React, { Component } from "react";
+import React from "react";
 import InputBox from "./InputBox";
 
-class Home extends Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    return (
-      <div>
-        <div>BLOGGER</div>
-        <div className="container">
-          <div>
-            Title:
-            <InputBox
-              type="text"
-              name="blog_title"
-              onChange={this.props.title}
-              placeholder="Enter title here.."
-            />
-          </div>
-          <div>
-            Content:
-            <div
-              onInput={this.props.content}
-              className="blog-content"
-              contentEditable="true"
-              placeholder="Enter content here.."
-              onFocus={this.props.content}
-            />
-          </div>
-          <button
-            className="save-button"
-            type="submit"
-            onClick={this.props.save}
-          >
-            save
-          </button>
+const Home = function(props) {
+  return (
+    <div>
+      <div>BLOGGER</div>
+      <div className="container">
+        <div>
+          Title:
+          <InputBox
+            type="text"
+            name="blog_title"
+            onChange={props.title}
+            placeholder="Enter title here.."
+          />
         </div>
+        <div>
+          Content:
+          <div
+            onInput={props.content}
+            className="blog-content"
+            contentEditable="true"
+            placeholder="Enter content here.."
+            onFocus={props.content}
+          />
+        </div>
+        <button className="save-button" onClick={props.save}>
+          save
+        </button>
+        <button className="save-button" onClick={props.view}>
+          view
+        </button>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
+
 export default Home;

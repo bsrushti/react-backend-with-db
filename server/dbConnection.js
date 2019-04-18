@@ -33,4 +33,14 @@ const addPost = function(userDetails, res) {
   });
 };
 
-module.exports = { isValidUser, addPost };
+const viewPost = function(userDetails, res) {
+  let { userName, blogTitle } = userDetails;
+  const qry = `select * from ${BLOG_DETAILS} where user_name='${userName}' and title='${blogTitle}'`;
+  return connection.query(qry, function(err, result) {
+    console.log("coming to view");
+    if (err) throw err;
+    return res.send({ status: 200, body: result });
+  });
+};
+
+module.exports = { isValidUser, addPost, viewPost };

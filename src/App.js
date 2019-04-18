@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Home from "./Home";
 import Login from "./Login";
+import PostView from "./PostView";
 import "./App.css";
 
 class App extends Component {
@@ -12,12 +13,14 @@ class App extends Component {
     this.getContent = this.getContent.bind(this);
     this.save = this.save.bind(this);
     this.login = this.login.bind(this);
-
+    this.view = this.view.bind(this);
     this.state = {
       username: "",
       password: "",
       title: "",
-      content: ""
+      content: "",
+      blogDetails: "",
+      currentPage: "login"
     };
   }
 
@@ -46,13 +49,12 @@ class App extends Component {
       body: JSON.stringify({ name, password })
     })
       .then(res => res.json())
-      .then(output => {
-        if (output.status) {
-          document.getElementById("login").style.display = "none";
-          document.getElementById("home").style.display = "unset";
+      .then(function(output) {
+        if (!output.status) {
+          document.getElementById("msg").innerHTML = "Invalid user";
         }
-        document.getElementById("msg").innerHTML = "Invalid user";
       });
+    this.setState({ currentPage: "home" });
   }
 
   save(e) {
@@ -60,35 +62,80 @@ class App extends Component {
     let userName = this.state.username;
     let blogTitle = this.state.title;
     let content = this.state.content;
-    console.log("coming to save \n", userName, blogTitle, content);
     fetch("/addPost", {
       method: "POST",
       body: JSON.stringify({ userName, blogTitle, content })
     });
-    console.log(this.state.title, this.state.content);
+    this.setState({ currentPage: "home" });
+  }
+
+  view(e) {
+    e.preventDefault();
+    let app = this;
+    let userName = this.state.username;
+    let blogTitle = this.state.title;
+    fetch("/viewPost", {
+      method: "POST",
+      body: JSON.stringify({ userName, blogTitle })
+    })
+      .then(res => res.json())
+      .then(out => {
+        app.setState({ currentPage: "view", blogDetails: out.body });
+      });
+  }
+
+  renderLogin() {
+    return (
+      <div id="login" className="login-page">
+        <div id="msg" className="err-msg" />
+        <Login
+          login={this.login}
+          getUsername={this.getUsername}
+          getPassword={this.getPassword}
+        />
+      </div>
+    );
+  }
+
+  renderHome() {
+    return (
+      <div id="home" className="home-page">
+        <Home
+          save={this.save}
+          view={this.view}
+          title={this.getTitle}
+          content={this.getContent}
+        />
+      </div>
+    );
+  }
+
+  renderPost(blogDetails) {
+    return (
+      <div>
+        <PostView blogDetails={blogDetails} />
+      </div>
+    );
   }
 
   render() {
     return (
-      <div>
-        <div id="login" className="login-page">
-          <div id="msg" className="err-msg" />
-          <Login
-            login={this.login}
-            getUsername={this.getUsername}
-            getPassword={this.getPassword}
-          />
-        </div>
-        <div id="home" className="home-page" style={{ display: "none" }}>
-          <Home
-            save={this.save}
-            title={this.getTitle}
-            content={this.getContent}
-          />
-        </div>
-      </div>
+      <Blogger
+        currentPage={this.state.currentPage}
+        renderLogin={this.renderLogin.bind(this)}
+        renderHome={this.renderHome.bind(this)}
+        renderPost={this.renderPost.bind(this)}
+        blogDetails={this.state.blogDetails}
+      />
     );
   }
 }
+
+const Blogger = function(props) {
+  if (props.currentPage == "login") return <div>{props.renderLogin()}</div>;
+  if (props.currentPage == "home") return <div>{props.renderHome()}</div>;
+  if (props.currentPage == "view")
+    return <div>{props.renderPost(props.blogDetails)}</div>;
+};
 
 export default App;
